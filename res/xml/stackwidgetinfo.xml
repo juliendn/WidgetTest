@@ -19,7 +19,6 @@
     android:initialLayout="@layout/widget_stack_layout"
     android:minHeight="110dip"
     android:minWidth="110dip"
-    android:resizeMode="horizontal|vertical"
     android:updatePeriodMillis="3600000" >
 
 </appwidget-provider><!--
