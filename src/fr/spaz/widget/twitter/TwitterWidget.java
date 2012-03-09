@@ -18,10 +18,10 @@ package fr.spaz.widget.twitter;
 
 import java.io.IOException;
 
-import fr.spaz.widget.generic.WidgetUpdateService;
-
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.accounts.AccountManagerCallback;
+import android.accounts.AccountManagerFuture;
 import android.accounts.AuthenticatorException;
 import android.accounts.OperationCanceledException;
 import android.app.Service;
@@ -29,8 +29,11 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Bundle;
 import android.util.Log;
 import android.widget.RemoteViews;
+import fr.spaz.widget.generic.WidgetUpdateService;
 
 /**
  * Define a simple widget that shows the Wiktionary "Word of the day." To build an update we spawn a background {@link Service} to perform the API queries.
@@ -38,6 +41,9 @@ import android.widget.RemoteViews;
 public class TwitterWidget extends AppWidgetProvider
 {
 	private static final String TAG = "TwitterWidget";
+	private static final String TWITTER_ACCOUNT_TYPE = "com.twitter.android.auth.login";
+	private static final String TWITTER_ACCOUNT_TOKEN = "com.twitter.android.oauth.token";
+	private static final String TWITTER_ACCOUNT_TOKEN_SECRET = "com.twitter.android.oauth.token.secret";
 
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds)
@@ -49,13 +55,6 @@ public class TwitterWidget extends AppWidgetProvider
 	@Override
 	public void onReceive(Context context, Intent intent)
 	{
-		// AppWidgetManager mgr = AppWidgetManager.getInstance(context);
-		// if (intent.getAction().equals(TOAST_ACTION))
-		// {
-		// int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
-		// int viewIndex = intent.getIntExtra(EXTRA_ITEM, 0);
-		// Toast.makeText(context, "Touched view " + viewIndex, Toast.LENGTH_SHORT).show();
-		// }
 		super.onReceive(context, intent);
 	}
 
@@ -64,6 +63,7 @@ public class TwitterWidget extends AppWidgetProvider
 
 		private static final String TWITTER_ACCOUNT_TYPE = "com.twitter.android.auth.login";
 		private static final String TWITTER_ACCOUNT_TOKEN = "com.twitter.android.oauth.token";
+		private static final String TWITTER_ACCOUNT_TOKEN_SECRET = "com.twitter.android.oauth.token.secret";
 
 		/**
 		 * Build a widget update to show the current Wiktionary "Word of the day." Will block until the online API returns.
@@ -73,39 +73,56 @@ public class TwitterWidget extends AppWidgetProvider
 		{
 			AccountManager accountManager = (AccountManager) getSystemService(ACCOUNT_SERVICE);
 			final Account[] accounts = accountManager.getAccountsByType(TWITTER_ACCOUNT_TYPE);
-			if (accounts == null)
+			if (accounts.length > 0)
+			{
+
+				final Account account = accounts[0];
+				Log.d(TAG, "name: " + account.name);
+				Log.d(TAG, "type: " + account.type);
+
+				accountManager.getAuthToken(account, "com.twitter.android.oauth.token", true, new AccountManagerCallback<Bundle>()
+				{
+					@Override
+					public void run(AccountManagerFuture<Bundle> arg0)
+					{
+						try
+						{
+							Bundle b = arg0.getResult();
+							String token = b.getString(AccountManager.KEY_AUTHTOKEN);
+							String userName = b.getString(AccountManager.KEY_ACCOUNT_NAME);
+							Log.d(TAG, "token: " + token);
+							Log.d(TAG, "userName: " + userName);
+						}
+						catch (Exception e)
+						{
+							e.printStackTrace();
+						}
+					}
+				}, null);
+
+				accountManager.getAuthToken(account, "com.twitter.android.oauth.token.secret", true, new AccountManagerCallback<Bundle>()
+				{
+					@Override
+					public void run(AccountManagerFuture<Bundle> arg0)
+					{
+						try
+						{
+							Bundle b = arg0.getResult();
+							String secret = b.getString(AccountManager.KEY_AUTHTOKEN);
+							Log.d(TAG, "secret: " + secret);
+
+						}
+						catch (Exception e)
+						{
+							e.printStackTrace();
+						}
+					}
+				}, null);
+			}
+			else
 			{
 				Log.d(TAG, "No account found");
-				return null;
 			}
-
-			final Account account = accounts[0];
-
-			try
-			{
-				String token = accountManager.blockingGetAuthToken(account, TWITTER_ACCOUNT_TOKEN, false);
-				Log.d(TAG, "token: " + token);
-
-			}
-			catch (OperationCanceledException e)
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			catch (AuthenticatorException e)
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			catch (IOException e)
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-			// RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.widget_stack_layout);
-			// rv.setRemoteAdapter(appWidgetIds[i], R.id.stack_view, intent);
-
 			return null;
 		}
 	}

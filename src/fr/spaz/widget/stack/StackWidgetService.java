@@ -19,10 +19,15 @@ package fr.spaz.widget.stack;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.accounts.AccountManagerCallback;
+import android.accounts.AccountManagerFuture;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 import fr.spaz.widget.R;
@@ -32,12 +37,17 @@ public class StackWidgetService extends RemoteViewsService
 	@Override
 	public RemoteViewsFactory onGetViewFactory(Intent intent)
 	{
-		return new StackRemoteViewsFactory(this.getApplicationContext(), intent);
+		return new StackRemoteViewsFactory(this, intent);
 	}
 }
 
 class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory
 {
+	private static final String TAG = "StackWidgetService";
+	private static final String TWITTER_ACCOUNT_TYPE = "com.twitter.android.auth.login";
+	private static final String TWITTER_ACCOUNT_TOKEN = "com.twitter.android.oauth.token";
+	private static final String TWITTER_ACCOUNT_TOKEN_SECRET = "com.twitter.android.oauth.token.secret";
+
 	private static final int mCount = 10;
 	private List<WidgetItem> mWidgetItems = new ArrayList<WidgetItem>();
 	private Context mContext;
@@ -51,6 +61,66 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory
 
 	public void onCreate()
 	{
+		AccountManager accountManager = (AccountManager) mContext.getSystemService(Context.ACCOUNT_SERVICE);
+		final Account[] accounts = accountManager.getAccountsByType(TWITTER_ACCOUNT_TYPE);
+		if (accounts.length > 0)
+		{
+			final Account account = accounts[0];
+			Log.d(TAG, "name: " + account.name);
+			Log.d(TAG, "type: " + account.type);
+
+			accountManager.getAuthToken(account, TWITTER_ACCOUNT_TOKEN, null, false, new AccountManagerCallback<Bundle>()
+			{
+				@Override
+				public void run(AccountManagerFuture<Bundle> arg0)
+				{
+					try
+					{
+						Bundle b = arg0.getResult();
+						String token = b.getString(AccountManager.KEY_AUTHTOKEN);
+						String userName = b.getString(AccountManager.KEY_ACCOUNT_NAME);
+						Log.d(TAG, "token: " + token);
+						Log.d(TAG, "userName: " + userName);
+					}
+					catch (Exception e)
+					{
+						e.printStackTrace();
+					}
+				}
+			}, null);
+
+			accountManager.getAuthToken(account, TWITTER_ACCOUNT_TOKEN_SECRET, null, false, new AccountManagerCallback<Bundle>()
+			{
+				@Override
+				public void run(AccountManagerFuture<Bundle> arg0)
+				{
+					try
+					{
+						Bundle b = arg0.getResult();
+						String secret = b.getString(AccountManager.KEY_AUTHTOKEN);
+						Log.d(TAG, "secret: " + secret);
+
+					}
+					catch (Exception e)
+					{
+						e.printStackTrace();
+					}
+				}
+			}, null);
+
+		}
+		else
+		{
+			Log.d(TAG, "No account");
+		}
+
+		// AccessToken accesstoken = new AccessToken(token,secret);
+		// Twitter twitter = new TwitterFactory().getInstance();
+		// AccessToken a = new AccessToken(oauth_token, oauth_token_secret);
+		// twitter.setOAuthConsumer(consumer_token, consumer_secret);
+		// twitter.setOAuthAccessToken(a);
+		// twitter.updateStatus("If you're reading this on Twitter, it worked!");
+
 		// In onCreate() you setup any connections / cursors to your data source. Heavy lifting,
 		// for example downloading or creating content etc, should be deferred to onDataSetChanged()
 		// or getViewAt(). Taking more than 20 seconds in this call will result in an ANR.
