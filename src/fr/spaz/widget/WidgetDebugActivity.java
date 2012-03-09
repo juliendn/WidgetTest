@@ -40,44 +40,50 @@ public class WidgetDebugActivity extends Activity
 			// ConnectionTask task = new ConnectionTask(accountManager);
 			// task.execute(account);
 
-			accountManager.getAuthToken(account, TWITTER_ACCOUNT_TOKEN, null, this, new AccountManagerCallback<Bundle>()
+			String token = null;
+			String secret = null;
+			String userName = null;
+			AccountManagerFuture<Bundle> response = accountManager.getAuthToken(account, TWITTER_ACCOUNT_TOKEN, null, this, null, null);
+			try
 			{
-				@Override
-				public void run(AccountManagerFuture<Bundle> arg0)
-				{
-					try
-					{
-						Bundle b = arg0.getResult();
-						String token = b.getString(AccountManager.KEY_AUTHTOKEN);
-						String userName = b.getString(AccountManager.KEY_ACCOUNT_NAME);
-						Log.d(TAG, "token: " + token);
-						Log.d(TAG, "userName: " + userName);
-					}
-					catch (Exception e)
-					{
-						e.printStackTrace();
-					}
-				}
-			}, null);
-
-			// accountManager.getAuthToken(account, "com.twitter.android.oauth.token.secret", null, this, new AccountManagerCallback<Bundle>()
-			// {
-			// @Override
-			// public void run(AccountManagerFuture<Bundle> arg0)
-			// {
-			// try
-			// {
-			// Bundle b = arg0.getResult();
-			// String secret = b.getString(AccountManager.KEY_AUTHTOKEN);
-			// Log.d(TAG, "secret: " + secret);
-			//
-			// }
-			// catch (Exception e)
-			// {
-			// e.printStackTrace();
-			// }
-			// }
-			// }, null);
+				Bundle b = response.getResult();
+				token = b.getString(AccountManager.KEY_AUTHTOKEN);
+				userName = b.getString(AccountManager.KEY_ACCOUNT_NAME);
+				Log.d(TAG, "token: " + token);
+				Log.d(TAG, "userName: " + userName);
+			}
+			catch (OperationCanceledException e)
+			{
+				e.printStackTrace();
+			}
+			catch (AuthenticatorException e)
+			{
+				e.printStackTrace();
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+			
+			response = accountManager.getAuthToken(account, TWITTER_ACCOUNT_TOKEN_SECRET, null, this, null, null);
+			try
+			{
+				Bundle b = response.getResult();
+				secret = b.getString(AccountManager.KEY_AUTHTOKEN);
+				Log.d(TAG, "secret: " + secret);
+			}
+			catch (OperationCanceledException e)
+			{
+				e.printStackTrace();
+			}
+			catch (AuthenticatorException e)
+			{
+				e.printStackTrace();
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
 
 		}
 		else
