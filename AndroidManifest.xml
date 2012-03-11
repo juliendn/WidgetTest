@@ -14,15 +14,49 @@
     <application
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name" >
-        <activity
-            android:name=".twitter.WidgetTwitterDebugActivity"
-            android:label="WidgetDebug" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
+        <!-- activity -->
+        <!-- <activity -->
+        <!-- android:name=".twitter.WidgetTwitterDebugActivity" -->
+        <!-- android:label="WidgetDebug" > -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+        <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+        <!-- </intent-filter> -->
+        <!-- </activity> -->
+
+
+        <!-- Wikipedia -->
+        <receiver
+            android:name=".pedia.WikiWidget"
+            android:label="@string/wikipedia_widget_name" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
-        </activity>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_word" />
+        </receiver>
+
+        <service android:name=".pedia.WikiWidget$UpdateService" />
+
+        <!-- Wiktionary -->
+        <receiver
+            android:name=".word.WordWidget"
+            android:label="@string/wiktionary_widget_name" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_word" />
+        </receiver>
+
+        <service android:name=".word.WordWidget$UpdateService" />
 
         <!-- Twitter -->
         <receiver

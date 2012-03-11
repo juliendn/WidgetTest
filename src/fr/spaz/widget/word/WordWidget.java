@@ -32,12 +32,11 @@ import android.util.Log;
 import android.widget.RemoteViews;
 import fr.spaz.widget.R;
 import fr.spaz.widget.generic.WidgetUpdateService;
-import fr.spaz.widget.word.SimpleWikiHelper.ApiException;
-import fr.spaz.widget.word.SimpleWikiHelper.ParseException;
+import fr.spaz.widget.word.SimpleWiktionaryHelper.ApiException;
+import fr.spaz.widget.word.SimpleWiktionaryHelper.ParseException;
 
 /**
- * Define a simple widget that shows the Wiktionary "Word of the day." To build
- * an update we spawn a background {@link Service} to perform the API queries.
+ * Define a simple widget that shows the Wiktionary "Word of the day." To build an update we spawn a background {@link Service} to perform the API queries.
  */
 public class WordWidget extends AppWidgetProvider
 {
@@ -52,8 +51,7 @@ public class WordWidget extends AppWidgetProvider
 	{
 
 		/**
-		 * Build a widget update to show the current Wiktionary
-		 * "Word of the day." Will block until the online API returns.
+		 * Build a widget update to show the current Wiktionary "Word of the day." Will block until the online API returns.
 		 */
 		@Override
 		public RemoteViews buildUpdate(Context context)
@@ -75,8 +73,8 @@ public class WordWidget extends AppWidgetProvider
 			try
 			{
 				// Try querying the Wiktionary API for today's word
-				SimpleWikiHelper.prepareUserAgent(context);
-				pageContent = SimpleWikiHelper.getPageContent(pageName, false);
+				SimpleWiktionaryHelper.prepareUserAgent(context);
+				pageContent = SimpleWiktionaryHelper.getPageContent(pageName, false);
 			}
 			catch (ApiException e)
 			{
@@ -88,7 +86,7 @@ public class WordWidget extends AppWidgetProvider
 			}
 
 			// Use a regular expression to parse out the word and its definition
-			Pattern pattern = Pattern.compile(SimpleWikiHelper.WORD_OF_DAY_REGEX);
+			Pattern pattern = Pattern.compile(SimpleWiktionaryHelper.WORD_OF_DAY_REGEX);
 			Matcher matcher = pattern.matcher(pageContent);
 			if (matcher.find())
 			{
@@ -102,7 +100,7 @@ public class WordWidget extends AppWidgetProvider
 
 				// When user clicks on widget, launch to Wiktionary definition
 				// page
-				String definePage = res.getString(R.string.template_define_url, Uri.encode(wordTitle));
+				String definePage = res.getString(R.string.template_wiktionary_define_url, Uri.encode(wordTitle));
 				Intent defineIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(definePage));
 				PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, defineIntent, 0);
 				updateViews.setOnClickPendingIntent(R.id.widget, pendingIntent);
