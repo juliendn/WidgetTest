@@ -38,7 +38,8 @@
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/widget_word" />
+                android:resource="@xml/widget_word" >
+            </meta-data>
         </receiver>
 
         <service android:name=".pedia.WikiWidget$UpdateService" />
@@ -53,7 +54,8 @@
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/widget_word" />
+                android:resource="@xml/widget_word" >
+            </meta-data>
         </receiver>
 
         <service android:name=".word.WordWidget$UpdateService" />
@@ -68,7 +70,8 @@
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/widget_word" />
+                android:resource="@xml/widget_word" >
+            </meta-data>
         </receiver>
 
         <service android:name=".twitter.TwitterWidget$UpdateService" />
@@ -81,13 +84,31 @@
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/stackwidgetinfo" />
+                android:resource="@xml/stackwidgetinfo" >
+            </meta-data>
         </receiver>
 
         <service
             android:name=".stack.StackWidgetService"
             android:exported="false"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
+
+        <!-- testimpl -->
+
+        <receiver
+            android:name=".testimpl.TestImpl"
+            android:label="Test" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_word" >
+            </meta-data>
+        </receiver>
+
+        <service android:name=".generic.GenericAppWidgetUpdatePre3Service" />
     </application>
 
 </manifest>

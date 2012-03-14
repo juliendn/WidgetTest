@@ -59,6 +59,7 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory
 		mAppWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
 	}
 
+	@Override
 	public void onCreate()
 	{
 		// In onCreate() you setup any connections / cursors to your data source. Heavy lifting,
@@ -82,6 +83,7 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory
 		}
 	}
 
+	@Override
 	public void onDestroy()
 	{
 		// In onDestroy() you should tear down anything that was setup for your data source,
@@ -89,11 +91,13 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory
 		mWidgetItems.clear();
 	}
 
+	@Override
 	public int getCount()
 	{
 		return mCount;
 	}
 
+	@Override
 	public RemoteViews getViewAt(int position)
 	{
 		// position will always range from 0 to getCount() - 1.
@@ -129,6 +133,7 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory
 		return rv;
 	}
 
+	@Override
 	public RemoteViews getLoadingView()
 	{
 		// You can create a custom loading view (for instance when getViewAt() is slow.) If you
@@ -136,21 +141,25 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory
 		return null;
 	}
 
+	@Override
 	public int getViewTypeCount()
 	{
 		return 1;
 	}
 
+	@Override
 	public long getItemId(int position)
 	{
 		return position;
 	}
 
+	@Override
 	public boolean hasStableIds()
 	{
 		return true;
 	}
 
+	@Override
 	public void onDataSetChanged()
 	{
 		// This is triggered when you call AppWidgetManager notifyAppWidgetViewDataChanged
