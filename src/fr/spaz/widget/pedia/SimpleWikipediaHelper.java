@@ -30,15 +30,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import fr.spaz.widget.R;
-import fr.spaz.widget.R.string;
-
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 import android.util.Log;
+import fr.spaz.widget.R;
 
 /**
  * Helper methods to simplify talking with and parsing responses from a
@@ -46,8 +44,7 @@ import android.util.Log;
  * {@link #prepareUserAgent(Context)} to generate a User-Agent string based on
  * your application package name and version.
  */
-public class SimpleWikipediaHelper
-{
+public class SimpleWikipediaHelper {
 	private static final String TAG = "SimpleWikiHelper";
 
 	/**
@@ -63,8 +60,9 @@ public class SimpleWikipediaHelper
 	 */
 	private static final String WIKTIONARY_PAGE = "http://en.wiktionary.org/w/api.php?action=query&prop=revisions&titles=%s&rvprop=content&format=json%s";
 	private static final String WIKIPEDIA_PAGE = "http://en.wikipedia.org/w/api.php?action=query&prop=revisions&titles=%s&rvprop=content&format=json%s";
-	
-//	private static final String WIKIPEDIA_PAGE_RANDOM = "fr.wikipedia.org/wiki/Spécial:Page_au_hasard";
+
+	// private static final String WIKIPEDIA_PAGE_RANDOM =
+	// "fr.wikipedia.org/wiki/Spécial:Page_au_hasard";
 	private static final String WIKIPEDIA_PAGE_RANDOM = "en.wikipedia.org/wiki/Spécial:Special:Random";
 
 	/**
@@ -95,15 +93,12 @@ public class SimpleWikipediaHelper
 	 * Thrown when there were problems contacting the remote API server, either
 	 * because of a network error, or the server returned a bad status code.
 	 */
-	public static class ApiException extends Exception
-	{
-		public ApiException(String detailMessage, Throwable throwable)
-		{
+	public static class ApiException extends Exception {
+		public ApiException(String detailMessage, Throwable throwable) {
 			super(detailMessage, throwable);
 		}
 
-		public ApiException(String detailMessage)
-		{
+		public ApiException(String detailMessage) {
 			super(detailMessage);
 		}
 	}
@@ -112,10 +107,8 @@ public class SimpleWikipediaHelper
 	 * Thrown when there were problems parsing the response to an API call,
 	 * either because the response was empty, or it was malformed.
 	 */
-	public static class ParseException extends Exception
-	{
-		public ParseException(String detailMessage, Throwable throwable)
-		{
+	public static class ParseException extends Exception {
+		public ParseException(String detailMessage, Throwable throwable) {
 			super(detailMessage, throwable);
 		}
 	}
@@ -125,18 +118,17 @@ public class SimpleWikipediaHelper
 	 * {@link Context} to pull the package name and version number for this
 	 * application.
 	 */
-	public static void prepareUserAgent(Context context)
-	{
-		try
-		{
+	public static void prepareUserAgent(Context context) {
+		try {
 			// Read package name and version number from manifest
 			PackageManager manager = context.getPackageManager();
-			PackageInfo info = manager.getPackageInfo(context.getPackageName(), 0);
-			sUserAgent = String.format(context.getString(R.string.template_user_agent), info.packageName, info.versionName);
+			PackageInfo info = manager.getPackageInfo(context.getPackageName(),
+					0);
+			sUserAgent = String.format(
+					context.getString(R.string.template_user_agent),
+					info.packageName, info.versionName);
 
-		}
-		catch (NameNotFoundException e)
-		{
+		} catch (NameNotFoundException e) {
 			Log.e(TAG, "Couldn't find package information in PackageManager", e);
 		}
 	}
@@ -157,18 +149,18 @@ public class SimpleWikipediaHelper
 	 * @throws ParseException
 	 *             If there are problems parsing the response.
 	 */
-	public static String getPageContent(String title, boolean expandTemplates) throws ApiException, ParseException
-	{
+	public static String getPageContent(String title, boolean expandTemplates)
+			throws ApiException, ParseException {
 		// Encode page title and expand templates if requested
 		String encodedTitle = Uri.encode(title);
 		String expandClause = expandTemplates ? WIKIPEDIA_EXPAND_TEMPLATES : "";
 
 		// Query the API for content
-		final String s = String.format(WIKIPEDIA_PAGE, encodedTitle, expandClause);
+		final String s = String.format(WIKIPEDIA_PAGE, encodedTitle,
+				expandClause);
 		Log.d("Spaz", s);
 		String content = getUrlContent(s);
-		try
-		{
+		try {
 			// Drill into the JSON response to find the content body
 			JSONObject response = new JSONObject(content);
 			JSONObject query = response.getJSONObject("query");
@@ -177,9 +169,7 @@ public class SimpleWikipediaHelper
 			JSONArray revisions = page.getJSONArray("revisions");
 			JSONObject revision = revisions.getJSONObject(0);
 			return revision.getString("*");
-		}
-		catch (JSONException e)
-		{
+		} catch (JSONException e) {
 			throw new ParseException("Problem parsing API response", e);
 		}
 	}
@@ -195,10 +185,9 @@ public class SimpleWikipediaHelper
 	 * @throws ApiException
 	 *             If any connection or server error occurs.
 	 */
-	protected static synchronized String getUrlContent(String url) throws ApiException
-	{
-		if (sUserAgent == null)
-		{
+	protected static synchronized String getUrlContent(String url)
+			throws ApiException {
+		if (sUserAgent == null) {
 			throw new ApiException("User-Agent string must be prepared");
 		}
 
@@ -207,15 +196,14 @@ public class SimpleWikipediaHelper
 		HttpGet request = new HttpGet(url);
 		request.setHeader("User-Agent", sUserAgent);
 
-		try
-		{
+		try {
 			HttpResponse response = client.execute(request);
 
 			// Check if server response is valid
 			StatusLine status = response.getStatusLine();
-			if (status.getStatusCode() != HTTP_STATUS_OK)
-			{
-				throw new ApiException("Invalid response from server: " + status.toString());
+			if (status.getStatusCode() != HTTP_STATUS_OK) {
+				throw new ApiException("Invalid response from server: "
+						+ status.toString());
 			}
 
 			// Pull content stream from response
@@ -226,16 +214,13 @@ public class SimpleWikipediaHelper
 
 			// Read response into a buffered stream
 			int readBytes = 0;
-			while ((readBytes = inputStream.read(sBuffer)) != -1)
-			{
+			while ((readBytes = inputStream.read(sBuffer)) != -1) {
 				content.write(sBuffer, 0, readBytes);
 			}
 
 			// Return result from buffered stream
 			return new String(content.toByteArray());
-		}
-		catch (IOException e)
-		{
+		} catch (IOException e) {
 			throw new ApiException("Problem communicating with API", e);
 		}
 	}
