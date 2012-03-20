@@ -43,8 +43,10 @@
     <string name="widget_error">No word of\nday found</string>
 
     <!-- Wikipedia -->
-    <string name="wikipedia_widget_name">Featured article</string>
+    <string name="wikipedia_featured_widget_name">Wikipedia Today\'s featured article</string>
+    <string name="wikipedia_random_widget_name">Wikipedia Random pages</string>
     <string name="template_today_featured_article">Wikipedia:Today\'s_featured_article/%1$s %2$s, %3$s</string>
+    <string name="template_random">Special:Random</string>
     <string name="template_wikipedia_define_url">"http://en.wikipedia.org/wiki/%s"</string>
     <string name="widget_wikipedia_name">Today\'s featured article (Wikipedia)</string>
     <string name="widget_wikipedia_loading">Loading featured article\nof day\u2026</string>

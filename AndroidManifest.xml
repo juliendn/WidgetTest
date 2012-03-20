@@ -31,7 +31,7 @@
         <!-- Wikipedia -->
         <receiver
             android:name=".pedia.WikiWidget"
-            android:label="@string/wikipedia_widget_name" >
+            android:label="@string/wikipedia_featured_widget_name" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -43,6 +43,24 @@
         </receiver>
 
         <service android:name=".pedia.WikiWidget$UpdateService" />
+        
+        
+        <receiver android:name=".pedia.StackWkiRandomPageProvider"
+            android:label="@string/wikipedia_random_widget_name" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/stackwikipediarandompageinfo" >
+            </meta-data>
+        </receiver>
+
+        <service
+            android:name=".pedia.StackWkiRandomPageService"
+            android:exported="false"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
 
         <!-- Wiktionary -->
         <receiver

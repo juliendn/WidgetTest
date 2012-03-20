@@ -14,18 +14,22 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/widget_item_background"
-    android:padding="5dp" >
+    android:padding="5dp" 
+    android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/widget_picture"
-        android:layout_width="wrap_content"
+    <TextView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/widget_title"
+        android:bufferType="spannable"
+        android:textSize="25sp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:src="@drawable/ic_launcher" />
+        android:gravity="center"
+        android:textColor="#ffffff" />
 
     <TextView
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -33,19 +37,7 @@
         android:bufferType="spannable"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/widget_picture"
-        android:layout_toRightOf="@+id/widget_picture"
-        android:gravity="center"
+        android:lines="5"
         android:textColor="#ffffff" />
 
-    <TextView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/widget_item2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/widget_item"
-        android:layout_toRightOf="@+id/widget_picture"
-        android:gravity="center"
-        android:textColor="#ffffff" />
-
-</RelativeLayout>
+</LinearLayout>

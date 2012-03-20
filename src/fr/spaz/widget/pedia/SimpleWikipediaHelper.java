@@ -19,6 +19,8 @@ package fr.spaz.widget.pedia;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -59,10 +61,10 @@ public class SimpleWikipediaHelper
 	 * the desired page title after escaping it as needed.
 	 */
 	// private static final String WIKTIONARY_PAGE = "http://en.wiktionary.org/w/api.php?action=query&prop=revisions&titles=%s&rvprop=content&format=json%s";
-	private static final String WIKIPEDIA_PAGE = "http://en.wikipedia.org/w/api.php?action=query&prop=revisions&titles=%s&rvprop=content&format=json%s";
+	private static final String WIKIPEDIA_PAGE = "http://%s.wikipedia.org/w/api.php?action=query&prop=revisions&titles=%s&rvprop=content&format=json&rvparse%s";
 
 	// private static final String WIKIPEDIA_PAGE_RANDOM = "fr.wikipedia.org/wiki/Spécial:Page_au_hasard";
-	private static final String WIKIPEDIA_PAGE_RANDOM = "en.wikipedia.org/wiki/Special:Random";
+	private static final String WIKIPEDIA_PAGE_RANDOM = "http://%s.wikipedia.org/w/api.php?action=query&list=random&format=json&rnnamespace=0&rnlimit=%d";
 
 	/**
 	 * Partial URL to append to {@link #WIKTIONARY_PAGE} when you want to expand
@@ -129,7 +131,8 @@ public class SimpleWikipediaHelper
 			PackageInfo info = manager.getPackageInfo(context.getPackageName(), 0);
 			sUserAgent = String.format(context.getString(R.string.template_user_agent), info.packageName, info.versionName);
 
-		} catch (NameNotFoundException e)
+		}
+		catch (NameNotFoundException e)
 		{
 			Log.e(TAG, "Couldn't find package information in PackageManager", e);
 		}
@@ -154,11 +157,12 @@ public class SimpleWikipediaHelper
 	public static String getPageContent(String title, boolean expandTemplates) throws ApiException, ParseException
 	{
 		// Encode page title and expand templates if requested
+		String lang = Uri.encode("en");
 		String encodedTitle = Uri.encode(title);
 		String expandClause = expandTemplates ? WIKIPEDIA_EXPAND_TEMPLATES : "";
 
 		// Query the API for content
-		final String s = String.format(WIKIPEDIA_PAGE, encodedTitle, expandClause);
+		final String s = String.format(WIKIPEDIA_PAGE, lang, encodedTitle, expandClause);
 		Log.d("Spaz", s);
 		String content = getUrlContent(s);
 		try
@@ -171,7 +175,36 @@ public class SimpleWikipediaHelper
 			JSONArray revisions = page.getJSONArray("revisions");
 			JSONObject revision = revisions.getJSONObject(0);
 			return revision.getString("*");
-		} catch (JSONException e)
+		}
+		catch (JSONException e)
+		{
+			throw new ParseException("Problem parsing API response", e);
+		}
+	}
+
+	public static List<String> getRandomPages(int nbItem) throws ApiException, ParseException
+	{
+		// Encode page title and expand templates if requested
+		String lang = Uri.encode("en");
+
+		// Query the API for content
+		String queryString = String.format(WIKIPEDIA_PAGE_RANDOM, lang, nbItem);
+		String content = getUrlContent(queryString);
+		try
+		{
+			List<String> res = new ArrayList<String>();
+			// Drill into the JSON response to find the content body
+			JSONObject response = new JSONObject(content);
+			JSONObject query = response.getJSONObject("query");
+			JSONArray random = query.getJSONArray("random");
+			for (int i = 0; i < random.length(); i++)
+			{
+				JSONObject page = random.getJSONObject(i);
+				res.add(page.getString("title"));
+			}
+			return res;
+		}
+		catch (JSONException e)
 		{
 			throw new ParseException("Problem parsing API response", e);
 		}
@@ -226,7 +259,8 @@ public class SimpleWikipediaHelper
 
 			// Return result from buffered stream
 			return new String(content.toByteArray());
-		} catch (IOException e)
+		}
+		catch (IOException e)
 		{
 			throw new ApiException("Problem communicating with API", e);
 		}
