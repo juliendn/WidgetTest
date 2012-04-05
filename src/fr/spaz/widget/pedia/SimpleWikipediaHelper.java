@@ -42,7 +42,8 @@ import fr.spaz.widget.R;
 
 /**
  * Helper methods to simplify talking with and parsing responses from a
- * lightweight Wiktionary API. Before making any requests, you should call {@link #prepareUserAgent(Context)} to generate a User-Agent string based on
+ * lightweight Wiktionary API. Before making any requests, you should call
+ * {@link #prepareUserAgent(Context)} to generate a User-Agent string based on
  * your application package name and version.
  */
 public class SimpleWikipediaHelper
@@ -53,17 +54,20 @@ public class SimpleWikipediaHelper
 	 * Regular expression that splits "Word of the day" entry into word name,
 	 * word type, and the first description bullet point.
 	 */
-	// public static final String WORD_OF_DAY_REGEX = "(?s)\\{\\{wotd\\|(.+?)\\|(.+?)\\|([^#\\|]+).*?\\}\\}";
+	// public static final String WORD_OF_DAY_REGEX =
+	// "(?s)\\{\\{wotd\\|(.+?)\\|(.+?)\\|([^#\\|]+).*?\\}\\}";
 
 	/**
 	 * Partial URL to use when requesting the detailed entry for a specific
 	 * Wiktionary page. Use {@link String#format(String, Object...)} to insert
 	 * the desired page title after escaping it as needed.
 	 */
-	// private static final String WIKTIONARY_PAGE = "http://en.wiktionary.org/w/api.php?action=query&prop=revisions&titles=%s&rvprop=content&format=json%s";
+	// private static final String WIKTIONARY_PAGE =
+	// "http://en.wiktionary.org/w/api.php?action=query&prop=revisions&titles=%s&rvprop=content&format=json%s";
 	private static final String WIKIPEDIA_PAGE = "http://%s.wikipedia.org/w/api.php?action=query&prop=revisions&titles=%s&rvprop=content&format=json&rvparse%s";
 
-	// private static final String WIKIPEDIA_PAGE_RANDOM = "fr.wikipedia.org/wiki/Spécial:Page_au_hasard";
+	// private static final String WIKIPEDIA_PAGE_RANDOM =
+	// "fr.wikipedia.org/wiki/Spécial:Page_au_hasard";
 	private static final String WIKIPEDIA_PAGE_RANDOM = "http://%s.wikipedia.org/w/api.php?action=query&list=random&rvsection=0&format=json&rnnamespace=0&rnlimit=%d";
 
 	/**
@@ -85,7 +89,8 @@ public class SimpleWikipediaHelper
 	private static byte[] sBuffer = new byte[512];
 
 	/**
-	 * User-agent string to use when making requests. Should be filled using {@link #prepareUserAgent(Context)} before making any other calls.
+	 * User-agent string to use when making requests. Should be filled using
+	 * {@link #prepareUserAgent(Context)} before making any other calls.
 	 */
 	private static String sUserAgent = null;
 
@@ -119,7 +124,8 @@ public class SimpleWikipediaHelper
 	}
 
 	/**
-	 * Prepare the internal User-Agent string for use. This requires a {@link Context} to pull the package name and version number for this
+	 * Prepare the internal User-Agent string for use. This requires a
+	 * {@link Context} to pull the package name and version number for this
 	 * application.
 	 */
 	public static void prepareUserAgent(Context context)
