@@ -64,7 +64,7 @@ public class SimpleWikipediaHelper
 	private static final String WIKIPEDIA_PAGE = "http://%s.wikipedia.org/w/api.php?action=query&prop=revisions&titles=%s&rvprop=content&format=json&rvparse%s";
 
 	// private static final String WIKIPEDIA_PAGE_RANDOM = "fr.wikipedia.org/wiki/Spécial:Page_au_hasard";
-	private static final String WIKIPEDIA_PAGE_RANDOM = "http://%s.wikipedia.org/w/api.php?action=query&list=random&format=json&rnnamespace=0&rnlimit=%d";
+	private static final String WIKIPEDIA_PAGE_RANDOM = "http://%s.wikipedia.org/w/api.php?action=query&list=random&rvsection=0&format=json&rnnamespace=0&rnlimit=%d";
 
 	/**
 	 * Partial URL to append to {@link #WIKTIONARY_PAGE} when you want to expand

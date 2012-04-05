@@ -33,27 +33,29 @@
         <item>November</item>
         <item>December</item>
     </string-array>
+    
+    <string name="widget_loading">Loading</string>
+    
 
     <!-- Wiktionary -->
     <string name="wiktionary_widget_name">Word of day</string>
-    <string name="template_wotd_title">"Wiktionary:Word of the day/%1$s %2$s"</string>
-    <string name="template_wiktionary_define_url">"http://en.wiktionary.org/wiki/%s"</string>
-    <string name="widget_name">Widget Spaz</string>
-    <string name="widget_loading">Loading word\nof day\u2026</string>
-    <string name="widget_error">No word of\nday found</string>
+    <string name="wiktionary_template_wotd_title">"Wiktionary:Word of the day/%1$s %2$s"</string>
+    <string name="wiktionary_template_define_url">"http://en.wiktionary.org/wiki/%s"</string>
+    <string name="wiktionary_widget_loading">Loading word\nof day\u2026</string>
+    <string name="wiktionary_widget_error">No word of\nday found</string>
 
     <!-- Wikipedia -->
     <string name="wikipedia_featured_widget_name">Wikipedia Today\'s featured article</string>
     <string name="wikipedia_random_widget_name">Wikipedia Random pages</string>
-    <string name="template_today_featured_article">Wikipedia:Today\'s_featured_article/%1$s %2$s, %3$s</string>
-    <string name="template_random">Special:Random</string>
-    <string name="template_wikipedia_define_url">"http://en.wikipedia.org/wiki/%s"</string>
-    <string name="widget_wikipedia_name">Today\'s featured article (Wikipedia)</string>
-    <string name="widget_wikipedia_loading">Loading featured article\nof day\u2026</string>
-    <string name="widget_wikipedia_error">Error</string>
+    <string name="wikipedia_template_today_featured_article">Wikipedia:Today\'s_featured_article/%1$s %2$s, %3$s</string>
+    <string name="wikipedia_template_random">Special:Random</string>
+    <string name="wikipedia_template_define_url">"http://en.wikipedia.org/wiki/%s"</string>
+    <string name="wikipedia_widget_name">Today\'s featured article (Wikipedia)</string>
+    <string name="wikipedia_widget_loading">Loading featured article\nof day\u2026</string>
+    <string name="wikipedia_widget_error">Error</string>
 
     <!-- Twitter -->
-    <string name="widget_twitter_name">Widget twitter de Spaz</string>
+    <string name="twitter_widget_name">Widget twitter de Spaz</string>
 
     <!-- Stack -->
     <string name="empty_view_text">This is the empty view</string>

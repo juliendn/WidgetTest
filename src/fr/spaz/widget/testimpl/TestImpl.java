@@ -22,7 +22,7 @@ public class TestImpl extends GenericAppWidgetProvider
 
 		// When user clicks on widget, launch to Wiktionary definition
 		// page
-		String definePage = context.getString(R.string.template_wiktionary_define_url, "www.google.com");
+		String definePage = context.getString(R.string.wiktionary_template_define_url, "www.google.com");
 		Intent defineIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(definePage));
 		PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, defineIntent, 0);
 		updateViews.setOnClickPendingIntent(R.id.widget, pendingIntent);

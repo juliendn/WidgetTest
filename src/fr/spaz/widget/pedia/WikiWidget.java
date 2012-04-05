@@ -63,7 +63,7 @@ public class WikiWidget extends AppWidgetProvider {
 			// "Wikipedia:Today\'s_featured_article/March 11, 2012"
 
 			String pageName = res.getString(
-					R.string.template_today_featured_article,
+					R.string.wikipedia_template_today_featured_article,
 					monthNames[today.month], today.monthDay, today.year);
 			RemoteViews updateViews = null;
 			String pageContent = "";
@@ -89,7 +89,7 @@ public class WikiWidget extends AppWidgetProvider {
 			// When user clicks on widget, launch to Wiktionary definition
 			// page
 			String definePage = res.getString(
-					R.string.template_wikipedia_define_url,
+					R.string.wikipedia_template_define_url,
 					Uri.encode(pageName));
 			Intent defineIntent = new Intent(Intent.ACTION_VIEW,
 					Uri.parse(definePage));

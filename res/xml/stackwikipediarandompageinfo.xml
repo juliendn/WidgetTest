@@ -18,7 +18,7 @@
     android:autoAdvanceViewId="@id/stack_view"
     android:initialLayout="@layout/widget_stack_wikipedia_layout"
     android:minHeight="110dip"
-    android:minWidth="110dip"
+    android:minWidth="165dip"
     android:resizeMode="horizontal|vertical"
     android:updatePeriodMillis="3600000" >
 

@@ -25,7 +25,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/widget_title"
         android:bufferType="spannable"
-        android:textSize="25sp"
+        android:textSize="22sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -37,7 +37,6 @@
         android:bufferType="spannable"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:lines="5"
         android:textColor="#ffffff" />
 
 </LinearLayout>

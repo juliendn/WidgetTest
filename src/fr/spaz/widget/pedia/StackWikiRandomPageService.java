@@ -16,14 +16,18 @@ package fr.spaz.widget.pedia;
  * limitations under the License.
  */
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.wikipedia.Wiki;
 
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 import fr.spaz.widget.R;
@@ -61,6 +65,28 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory
 
 		
 		SimpleWikipediaHelper.prepareUserAgent(mContext);
+		
+//		Wiki wiki = new Wiki("en.wikipedia.org");
+//		
+//		String title = null;
+//		try
+//		{
+//			title = wiki.random();
+//			final String images[] = wiki.getImagesOnPage(title);
+//			final String content = wiki.getPageText(title);
+//			
+//			for(String image:images)
+//			{
+//				Log.d(TAG, "image: " + image);
+//			}
+//			Log.d(TAG, "content: " + content);
+//		}
+//		catch (IOException e2)
+//		{
+//			// TODO Auto-generated catch block
+//			e2.printStackTrace();
+//		}
+		
 		
 		List<String> pages = null;
 		try

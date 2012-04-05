@@ -82,16 +82,16 @@ public class StackWkiRandomPageProvider extends AppWidgetProvider
 			// of the collection view.
 			rv.setEmptyView(R.id.stack_view, R.id.empty_view);
 
-			// Here we setup the a pending intent template. Individuals items of a collection
-			// cannot setup their own pending intents, instead, the collection as a whole can
-			// setup a pending intent template, and the individual items can set a fillInIntent
-			// to create unique before on an item to item basis.
-			Intent toastIntent = new Intent(context, StackWkiRandomPageProvider.class);
-			toastIntent.setAction(StackWkiRandomPageProvider.TOAST_ACTION);
-			toastIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetIds[i]);
-			intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
-			PendingIntent toastPendingIntent = PendingIntent.getBroadcast(context, 0, toastIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-			rv.setPendingIntentTemplate(R.id.stack_view, toastPendingIntent);
+//			// Here we setup the a pending intent template. Individuals items of a collection
+//			// cannot setup their own pending intents, instead, the collection as a whole can
+//			// setup a pending intent template, and the individual items can set a fillInIntent
+//			// to create unique before on an item to item basis.
+//			Intent toastIntent = new Intent(context, StackWkiRandomPageProvider.class);
+//			toastIntent.setAction(StackWkiRandomPageProvider.TOAST_ACTION);
+//			toastIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetIds[i]);
+//			intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
+//			PendingIntent toastPendingIntent = PendingIntent.getBroadcast(context, 0, toastIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+//			rv.setPendingIntentTemplate(R.id.stack_view, toastPendingIntent);
 
 			appWidgetManager.updateAppWidget(appWidgetIds[i], rv);
 		}

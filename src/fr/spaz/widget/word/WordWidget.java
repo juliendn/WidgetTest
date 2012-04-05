@@ -66,7 +66,7 @@ public class WordWidget extends AppWidgetProvider
 
 			// Build today's page title, like
 			// "Wiktionary:Word of the day/March 21"
-			String pageName = res.getString(R.string.template_wotd_title, monthNames[today.month], today.monthDay);
+			String pageName = res.getString(R.string.wiktionary_template_wotd_title, monthNames[today.month], today.monthDay);
 			RemoteViews updateViews = null;
 			String pageContent = "";
 
@@ -100,7 +100,7 @@ public class WordWidget extends AppWidgetProvider
 
 				// When user clicks on widget, launch to Wiktionary definition
 				// page
-				String definePage = res.getString(R.string.template_wiktionary_define_url, Uri.encode(wordTitle));
+				String definePage = res.getString(R.string.wiktionary_template_define_url, Uri.encode(wordTitle));
 				Intent defineIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(definePage));
 				PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, defineIntent, 0);
 				updateViews.setOnClickPendingIntent(R.id.widget, pendingIntent);
@@ -109,7 +109,7 @@ public class WordWidget extends AppWidgetProvider
 			{
 				// Didn't find word of day, so show error message
 				updateViews = new RemoteViews(context.getPackageName(), R.layout.widget_message);
-				CharSequence errorMessage = context.getText(R.string.widget_error);
+				CharSequence errorMessage = context.getText(R.string.wiktionary_widget_error);
 				updateViews.setTextViewText(R.id.message, errorMessage);
 			}
 			return updateViews;
